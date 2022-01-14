@@ -26,7 +26,8 @@ public class AES {
 
   public static void main(String[] args) throws NoSuchAlgorithmException,
       NoSuchPaddingException, InvalidKeyException,
-      IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
+      IllegalBlockSizeException, BadPaddingException,
+      InvalidAlgorithmParameterException {
 
     byte[] iv = new byte[16];
     SecureRandom secureRandom = new SecureRandom();
