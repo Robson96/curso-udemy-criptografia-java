@@ -15,15 +15,14 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
+import static com.robson.utils.Utils.AES_KEY_SIZE;
+import static com.robson.utils.Utils.CIPHER_AES_CBC;
+
 /**
  * @author Robson Magno
  * @version 14/01/2022
  */
 public class AES {
-
-  private static String CIPHER = "AES/CBC/PKCS5Padding";
-  private static int KEY_SIZE = 256; // bits
-
   public static void main(String[] args) throws NoSuchAlgorithmException,
       NoSuchPaddingException, InvalidKeyException,
       IllegalBlockSizeException, BadPaddingException,
@@ -34,12 +33,12 @@ public class AES {
     secureRandom.nextBytes(iv);
 
     KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-    keyGenerator.init(KEY_SIZE);
+    keyGenerator.init(AES_KEY_SIZE);
     SecretKey secretKey = keyGenerator.generateKey();
 
     System.out.println("Chave: " + Utils.printKey(secretKey.getEncoded()));
 
-    Cipher cipher = Cipher.getInstance(CIPHER);
+    Cipher cipher = Cipher.getInstance(CIPHER_AES_CBC);
     cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv));
 
     String msg = "Importante!!!";
