@@ -13,7 +13,7 @@ public class Utils {
   public static String decode64(byte[] bytes) {
     return getDecoder().decode(bytes).toString();
   }
-  public static String printKey(byte[] bytes) {
+  public static String formatKey(byte[] bytes) {
     StringBuffer sb = new StringBuffer();
     for (byte b: bytes) {
       sb.append(String.format("%02X ", b));

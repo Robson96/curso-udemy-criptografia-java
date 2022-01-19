@@ -36,7 +36,7 @@ public class AES {
     keyGenerator.init(AES_KEY_SIZE);
     SecretKey secretKey = keyGenerator.generateKey();
 
-    System.out.println("Chave: " + Utils.printKey(secretKey.getEncoded()));
+    System.out.println("Chave: " + Utils.formatKey(secretKey.getEncoded()));
 
     Cipher cipher = Cipher.getInstance(CIPHER_AES_CBC);
     cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv));
