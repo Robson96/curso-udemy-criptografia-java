@@ -28,16 +28,24 @@ public class AES {
       IllegalBlockSizeException, BadPaddingException,
       InvalidAlgorithmParameterException {
 
+    // vetor de inicialização
+    // para cifra o primeiro bloco, o resultado do primeiro
+    // vai ser como entrada pro segundo bloco e sucessivamente...
+    // deve salvar o IV para uso posterior
+    // O iv deve ter sempre o tamnho de 16 bytes
     byte[] iv = new byte[16];
+    // Classe que gera numeros seguros pseudos aleatorios
     SecureRandom secureRandom = new SecureRandom();
     secureRandom.nextBytes(iv);
 
+    // Gera a chave secreta
     KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-    keyGenerator.init(AES_KEY_SIZE);
+    keyGenerator.init(AES_KEY_SIZE); // 256 bits
     SecretKey secretKey = keyGenerator.generateKey();
 
     System.out.println("Chave: " + Utils.formatKey(secretKey.getEncoded()));
 
+    // Classe core para codificar/decodificar
     Cipher cipher = Cipher.getInstance(CIPHER_AES_CBC);
     cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv));
 
@@ -46,7 +54,7 @@ public class AES {
     byte[] msgCodificada = cipher.doFinal(bytesMsg);
 
     System.out.println("Menssagem: " + msg);
-    System.out.println("Menssagem codificada: " + Utils.encode64(msgCodificada));
+    System.out.println("Menssagem codificada: " +Utils.encodeBase64(msgCodificada));
 
     cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
 

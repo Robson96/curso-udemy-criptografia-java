@@ -25,9 +25,9 @@ public class RSA {
     PrivateKey privateKey = keyPair.getPrivate();
     PublicKey publicKey = keyPair.getPublic();
 
-    System.out.println("Chave Privada: " + Utils.encode64(privateKey.getEncoded()));
+    System.out.println("Chave Privada: " + Utils.encodeBase64(privateKey.getEncoded()));
     System.out.println("===========================================");
-    System.out.println("Chave Publica: " + Utils.encode64(publicKey.getEncoded()));
+    System.out.println("Chave Publica: " + Utils.encodeBase64(publicKey.getEncoded()));
 
     final String cipherName = "RSA/ECB/OAEPWithSHA-256AndMGF1Padding";
     Cipher cipher = Cipher.getInstance(cipherName);
@@ -37,7 +37,7 @@ public class RSA {
 
     byte[] msgCodificada = cipher.doFinal(msg.getBytes("utf-8"));
 
-    System.out.println("Mensagem codificada: " + Utils.encode64(msgCodificada));
+    System.out.println("Mensagem codificada: " + Utils.encodeBase64(msgCodificada));
 
     cipher.init(Cipher.DECRYPT_MODE, privateKey);
     byte[] msgDecodificada = cipher.doFinal(msgCodificada);
