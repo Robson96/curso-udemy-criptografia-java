@@ -29,10 +29,10 @@ public class AES {
       InvalidAlgorithmParameterException {
 
     // vetor de inicialização
-    // para cifra o primeiro bloco, o resultado do primeiro
+    // para cifra o primeiro bloco, o resultado do primeiro bloco
     // vai ser como entrada pro segundo bloco e sucessivamente...
     // deve salvar o IV para uso posterior
-    // O iv deve ter sempre o tamnho de 16 bytes
+    // O iv deve ter sempre o tamanho de 16 bytes
     byte[] iv = new byte[16];
     // Classe que gera numeros seguros pseudos aleatorios
     SecureRandom secureRandom = new SecureRandom();
@@ -45,7 +45,7 @@ public class AES {
 
     System.out.println("Chave: " + Utils.formatKey(secretKey.getEncoded()));
 
-    // Classe core para codificar/decodificar
+    // Classe CORE/Principal para codificar/decodificar
     Cipher cipher = Cipher.getInstance(CIPHER_AES_CBC);
     cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv));
 
