@@ -5,6 +5,7 @@ import org.bouncycastle.crypto.generators.SCrypt;
 
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
+import java.util.HexFormat;
 
 public class DemoScrypt {
   public static void main(String[] args) throws UnsupportedEncodingException {
@@ -13,7 +14,7 @@ public class DemoScrypt {
     // na hora do login
     String salt = "foobar";
     String password = "12345";
-    int iteracoes = 32;
+    int iteracoes = 2048;
 
     byte[] salt1 = new byte[16];
     new SecureRandom().nextBytes(salt1);
@@ -21,12 +22,12 @@ public class DemoScrypt {
     byte[] sCrypt = SCrypt.generate(
         password.getBytes("utf-8"),
         salt1, // salte
-        2048, // numero de interacoes
+        iteracoes, // numero de interacoes
         8, // tamanho do bloco
         1, // O numero de threads
         128 // tamanho da chave em bits
         );
 
-    System.out.println(Utils.bytesOfHex(sCrypt));
+    System.out.println(HexFormat.of().formatHex(sCrypt));
   }
 }

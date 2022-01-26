@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.HexFormat;
 
 public class PBKDF2 {
   public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException {
@@ -29,6 +30,6 @@ public class PBKDF2 {
     SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256", "BC");
     byte[] hashWithSalt = keyFactory.generateSecret(keySpec).getEncoded();
 
-    System.out.println(Utils.bytesOfHex(hashWithSalt));
+    System.out.println(HexFormat.of().formatHex(hashWithSalt));
   }
 }

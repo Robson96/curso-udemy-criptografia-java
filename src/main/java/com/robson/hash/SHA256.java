@@ -5,6 +5,7 @@ import com.robson.utils.Utils;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HexFormat;
 
 import static com.robson.utils.Utils.*;
 
@@ -15,8 +16,9 @@ import static com.robson.utils.Utils.*;
 public class SHA256 {
   public static void main(String[] args) throws NoSuchAlgorithmException {
     // digest = resumo em portugues
+    String password = "senha123";
     MessageDigest md = MessageDigest.getInstance("SHA-256");
-    byte[] digest = md.digest(obterSenhaUsuario().getBytes(StandardCharsets.UTF_8));
-    System.out.println(Utils.bytesOfHex(digest));
+    byte[] digest = md.digest(password.getBytes(StandardCharsets.UTF_8));
+    System.out.println(HexFormat.of().formatHex(digest));
   }
 }

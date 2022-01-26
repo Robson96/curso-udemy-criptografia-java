@@ -15,14 +15,15 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-import static com.robson.utils.Utils.AES_KEY_SIZE;
-import static com.robson.utils.Utils.CIPHER_AES_CBC;
-
 /**
  * @author Robson Magno
  * @version 14/01/2022
  */
 public class AES {
+  // Algo/Modo/Schema de preenchimento
+  public final static String CIPHER_AES_CBC = "AES/CBC/PKCS5Padding";
+  public final static int AES_KEY_SIZE = 256; // bits
+
   public static void main(String[] args) throws NoSuchAlgorithmException,
       NoSuchPaddingException, InvalidKeyException,
       IllegalBlockSizeException, BadPaddingException,
