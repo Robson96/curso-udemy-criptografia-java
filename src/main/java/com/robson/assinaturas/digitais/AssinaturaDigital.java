@@ -13,7 +13,12 @@ import java.security.NoSuchProviderException;
 import java.security.Signature;
 import java.security.SignatureException;
 
+import static com.robson.utils.Utils.CIPHER_RSA;
+
 public class AssinaturaDigital {
+
+  private static final String ALGO_ASS = "SHA256WithRSA";
+
   public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchProviderException,
       NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, SignatureException {
 
@@ -23,15 +28,14 @@ public class AssinaturaDigital {
     KeyPair keyPairAlice = keyPairGenerator.generateKeyPair();
     KeyPair keyPairBob = keyPairGenerator.generateKeyPair();
 
-    final String cipherName = "RSA/ECB/OAEPWithSHA-256AndMGF1Padding";
-    Cipher cipher = Cipher.getInstance(cipherName);
+    Cipher cipher = Cipher.getInstance(CIPHER_RSA);
     cipher.init(Cipher.ENCRYPT_MODE, keyPairBob.getPublic());
 
     String msg = "Mensagem secreta!";
 
     byte[] msgCod = cipher.doFinal(msg.getBytes(StandardCharsets.UTF_8));
 
-    Signature signature = Signature.getInstance("SHA256WithRSA");
+    Signature signature = Signature.getInstance(ALGO_ASS);
     signature.initSign(keyPairAlice.getPrivate());
     signature.update(msg.getBytes(StandardCharsets.UTF_8));
     byte[] msgAss = signature.sign();

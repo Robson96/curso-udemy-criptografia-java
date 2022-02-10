@@ -14,15 +14,17 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.HexFormat;
+
+import static com.robson.utils.Utils.CIPHER_AES;
 
 /**
  * @author Robson Magno
  * @version 14/01/2022
+ *
+ * versao do java utilizado Zulu Jdk17 é de codigo aberto!
  */
 public class AES {
-  // Algo/Modo/Schema de preenchimento
-  public final static String CIPHER_AES_CBC = "AES/CBC/PKCS5Padding";
-  public final static int AES_KEY_SIZE = 256; // bits
 
   public static void main(String[] args) throws NoSuchAlgorithmException,
       NoSuchPaddingException, InvalidKeyException,
@@ -30,27 +32,27 @@ public class AES {
       InvalidAlgorithmParameterException {
 
     // vetor de inicialização
-    // para cifra o primeiro bloco, o resultado do primeiro bloco
-    // vai ser como entrada pro segundo bloco e sucessivamente...
     // deve salvar o IV para uso posterior
     // O iv deve ter sempre o tamanho de 16 bytes
     byte[] iv = new byte[16];
-    // Classe que gera numeros seguros pseudos aleatorios
+
+    // Classe que gera numeros randomicos seguros
     SecureRandom secureRandom = new SecureRandom();
     secureRandom.nextBytes(iv);
 
     // Gera a chave secreta
     KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-    keyGenerator.init(AES_KEY_SIZE); // 256 bits
-    SecretKey secretKey = keyGenerator.generateKey();
+    keyGenerator.init(256); // bits
+    SecretKey secretKey = keyGenerator.generateKey(); // Retorna a chave
 
-    System.out.println("Chave: " + Utils.formatKey(secretKey.getEncoded()));
+    // Essa classe HexFormat esta disponivel na versao do java 17 LTS
+    System.out.println("Chave: " + HexFormat.of().formatHex(secretKey.getEncoded()));
 
     // Classe CORE/Principal para codificar/decodificar
-    Cipher cipher = Cipher.getInstance(CIPHER_AES_CBC);
+    Cipher cipher = Cipher.getInstance(CIPHER_AES); // Transformação
     cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv));
 
-    String msg = "Importante!!!";
+    String msg = "Importante!!!"; // Exemplo
     byte[] bytesMsg = msg.getBytes(StandardCharsets.UTF_8);
     byte[] msgCodificada = cipher.doFinal(bytesMsg);
 

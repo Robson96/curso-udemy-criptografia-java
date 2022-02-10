@@ -1,13 +1,10 @@
 package com.robson.hash;
 
-import com.robson.utils.Utils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
-
-import static com.robson.utils.Utils.*;
 
 /**
  * @author Robson Magno
