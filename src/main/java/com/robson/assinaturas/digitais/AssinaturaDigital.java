@@ -17,36 +17,38 @@ import static com.robson.utils.Utils.CIPHER_RSA;
 
 public class AssinaturaDigital {
 
-  private static final String ALGO_ASS = "SHA256WithRSA";
-
   public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchProviderException,
       NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, SignatureException {
 
-    KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", "BC");
+    KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
     keyPairGenerator.initialize(1024);
 
     KeyPair keyPairAlice = keyPairGenerator.generateKeyPair();
     KeyPair keyPairBob = keyPairGenerator.generateKeyPair();
 
+    // Alice vai utilizar a chave publica de Bob
     Cipher cipher = Cipher.getInstance(CIPHER_RSA);
     cipher.init(Cipher.ENCRYPT_MODE, keyPairBob.getPublic());
 
     String msg = "Mensagem secreta!";
 
+    // Alice cifra a msg com a chave publica de Bob
     byte[] msgCod = cipher.doFinal(msg.getBytes(StandardCharsets.UTF_8));
 
-    Signature signature = Signature.getInstance(ALGO_ASS);
+    // Alice assina a msg com a sua chave privada
+    Signature signature = Signature.getInstance("SHA256WithRSA");
     signature.initSign(keyPairAlice.getPrivate());
     signature.update(msg.getBytes(StandardCharsets.UTF_8));
     byte[] msgAss = signature.sign();
 
-
-    // Bob decodifica a mensagem
+    // Bob decodifica a mensagem com a sua chave privada
     cipher.init(Cipher.DECRYPT_MODE, keyPairBob.getPrivate());
     byte[] msgDec = cipher.doFinal(msgCod);
 
     // Bob verifica se foi Alice que assinou a msg
+    // com a chave publica da Alice
     System.out.println("Checando assinaturas...");
+
     signature.initVerify(keyPairAlice.getPublic());
     signature.update(msgDec);
     boolean verify = signature.verify(msgAss);
